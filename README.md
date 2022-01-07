@@ -1,11 +1,17 @@
 # EventTrackerProject
 
-
 ## Overview
+This application is used to track purchases, either in person or online, and keeping track of if the purchase has been delivered and latest return date.
+
+#### How to return
+
 
 ### REST API
+Go to http://<IP Address>/8080/PurchaseTracker/api/purchases
+
 
 ### HTML/JavaScript Front Learned
+Go to http://<IP Address>/8080/PurchaseTracker/index.html
 
 ### Angular Front End
 
