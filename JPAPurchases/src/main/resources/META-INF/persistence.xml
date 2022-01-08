@@ -6,6 +6,7 @@
     
 
   <class>com.skilldistillery.purchases.entities.Puchase</class>
+  <class>com.skilldistillery.purchases.entities.Store</class>
 
 
     <properties>

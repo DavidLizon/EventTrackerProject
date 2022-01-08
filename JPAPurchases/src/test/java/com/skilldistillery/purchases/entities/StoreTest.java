@@ -1,7 +1,9 @@
 package com.skilldistillery.purchases.entities;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,11 +16,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class PurchaseTest {
-	
+class StoreTest {
+
 	private static EntityManagerFactory emf;
 	private static EntityManager em;
-	private Purchase purchase;
+	private Store store;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -33,38 +35,28 @@ class PurchaseTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		purchase = em.find(Purchase.class, 1);
+		store = em.find(Store.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-		purchase = null;
+		store = null;
 	}
 
 	@Test
-	@DisplayName("test purchase mapping")
+	@DisplayName("test store mapping")
 	void test() {
-		assertNotNull(purchase);
-		assertEquals("bathroom", purchase.getName());
-		assertEquals(true, purchase.isActive());
+		assertNotNull(store);
+		assertEquals("Home Depot", store.getName());
 	}
 	
 	@Test
-	@DisplayName("test purchase to store ManyToOne mapping")
+	@DisplayName("test store to purchase OneToMany mapping")
 	void test2() {
-		assertNotNull(purchase);
-		assertNotNull(purchase.getStore());
-		assertEquals(1, purchase.getStore().getId());
-		assertEquals("Home Depot", purchase.getStore().getName());
-	}
-	
-	@Test
-	@DisplayName("test puchase temporal mapping")
-	void test3() {
-		assertNotNull(purchase);
-		assertEquals(2022, purchase.getPurchaseDate().getYear());
-		assertEquals(07, purchase.getPurchaseDate().getDayOfMonth());
+		assertNotNull(store);
+		assertNotNull(store.getPurchases());
+		assertTrue(store.getPurchases().size() > 0); 
 	}
 
 }
