@@ -47,7 +47,7 @@ class PurchaseTest {
 	void test() {
 		assertNotNull(purchase);
 		assertEquals("bathroom", purchase.getName());
-		assertEquals(true, purchase.isActive());
+		assertEquals(true, purchase.isPastReturnDate());
 	}
 	
 	@Test

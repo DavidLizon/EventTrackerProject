@@ -1,6 +1,6 @@
 package com.skilldistillery.purchases.entities;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -20,23 +20,25 @@ public class Purchase {
 
 	private String name;
 
-	private boolean online;
+	private Boolean online;
 
 	@Column(name = "purchase_date")
-	private LocalDateTime purchaseDate;
+	private LocalDate purchaseDate;
 
 	@Column(name = "arrival_date")
-	private LocalDateTime arrivalDate;
+	private LocalDate arrivalDate;
 
 	@Column(name = "return_date")
-	private LocalDateTime returnDate;
+	private LocalDate returnDate;
+	
+	private Boolean returned;
 
 	@ManyToOne
 	@JoinColumn(name = "store_id")
 	private Store store;
 	
-	@Column(name = "is_active")
-	private boolean isActive;
+	@Column(name = "past_return_date")
+	private Boolean pastReturnDate;
 
 	// methods
 	public Purchase() {
@@ -59,36 +61,44 @@ public class Purchase {
 		this.name = name;
 	}
 
-	public boolean isOnline() {
+	public Boolean isOnline() {
 		return online;
 	}
 
-	public void setOnline(boolean online) {
+	public void setOnline(Boolean online) {
 		this.online = online;
 	}
 
-	public LocalDateTime getPurchaseDate() {
+	public LocalDate getPurchaseDate() {
 		return purchaseDate;
 	}
 
-	public void setPurchaseDate(LocalDateTime purchaseDate) {
+	public void setPurchaseDate(LocalDate purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 
-	public LocalDateTime getArrivalDate() {
+	public LocalDate getArrivalDate() {
 		return arrivalDate;
 	}
 
-	public void setArrivalDate(LocalDateTime arrivalDate) {
+	public void setArrivalDate(LocalDate arrivalDate) {
 		this.arrivalDate = arrivalDate;
 	}
 
-	public LocalDateTime getReturnDate() {
+	public LocalDate getReturnDate() {
 		return returnDate;
 	}
 
-	public void setReturnDate(LocalDateTime returnDate) {
+	public void setReturnDate(LocalDate returnDate) {
 		this.returnDate = returnDate;
+	}
+
+	public Boolean isReturned() {
+		return returned;
+	}
+
+	public void setReturned(Boolean returned) {
+		this.returned = returned;
 	}
 
 	public Store getStore() {
@@ -99,12 +109,12 @@ public class Purchase {
 		this.store = store;
 	}
 
-	public boolean isActive() {
-		return isActive;
+	public Boolean isPastReturnDate() {
+		return pastReturnDate;
 	}
 
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
+	public void setPastReturnDate(Boolean pastReturnDate) {
+		this.pastReturnDate = pastReturnDate;
 	}
 
 	@Override
