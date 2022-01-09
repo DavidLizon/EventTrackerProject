@@ -18,7 +18,7 @@ Go to http://<IP Address>/8080/PurchaseTracker/index.html
 ### REST API Reference
 |Return type     | HTTP Method | URI                 | Request Body| Reason  |
 |----------------|-------------|---------------------|-------------|---------|
-| List <Purchase>| GET         | /api/purchases      |             | List    |
+| List \<Purchase\>| GET         | /api/purchases      |             | List    |
 | Purchase       | GET         | /api/purchases/{id} |             | Retrieve|
 | Purchase       | POST        | /api/purchases      | Recipe JSON | Create  |
 | Purchase       | PUT         | /api/purchases/{id} | Recipe JSON | Update  |
