@@ -55,8 +55,14 @@ public class PurchaseController {
 	
 	@GetMapping("purchases/{keyword}")
 	public List<Purchase> findByPurchaseNameLike(
-		@PathVariable String keyword){
-		return purchaseSvc.findByPurchaseNameLike(keyword);
+			@PathVariable String keyword,
+			HttpServletResponse res
+			){
+		List<Purchase> purchases = purchaseSvc.findByPurchaseNameLike(keyword);
+		if(purchases.size() == 0) {
+			res.setStatus(404);
+		}
+		return purchases;
 	}
 	
 	@DeleteMapping("purchases/{purchaseId}")

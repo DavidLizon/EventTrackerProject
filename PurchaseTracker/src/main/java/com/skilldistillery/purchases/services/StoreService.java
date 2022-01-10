@@ -10,6 +10,6 @@ public interface StoreService {
 	List<Store> getAllStores();
 	Store getStoreById(int storeId);
 	
-	List<Store> findByNameLike(String keyword);
+	List<Store> findByNameLike(String name);
 	
 }

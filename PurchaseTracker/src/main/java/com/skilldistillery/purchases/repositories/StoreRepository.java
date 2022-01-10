@@ -8,5 +8,5 @@ import com.skilldistillery.purchases.entities.Store;
 
 public interface StoreRepository extends JpaRepository<Store, Integer> {
 
-	
+	List<Store> findByNameLike(String name);
 }

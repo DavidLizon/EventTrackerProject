@@ -31,9 +31,9 @@ public class StoreServiceImpl implements StoreService {
 			}
 
 			@Override
-			public List<Store> findByNameLike(String keyword) {
-				// TODO Auto-generated method stub
-				return null;
+			public List<Store> findByNameLike(String name) {
+				name = "%" + name + "%";
+				return storeRepo.findByNameLike(name);
 			}
 
 			

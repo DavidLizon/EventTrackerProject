@@ -36,4 +36,16 @@ public class StoreController {
 		return store;
 	}
 	
+	@RequestMapping("stores/{nameLike}")
+	public List<Store> findStoresByNameLike(
+			@PathVariable String nameLike,
+			HttpServletResponse res
+			) {
+		List<Store> stores = storeSvc.findByNameLike(nameLike);
+		if(stores.size() == 0) {
+			res.setStatus(404);
+		}
+		return stores;
+	}
+	
 }
