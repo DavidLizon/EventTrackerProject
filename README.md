@@ -16,21 +16,21 @@ Go to http://<IP Address>/8080/PurchaseTracker/index.html
 ### Angular Front End
 
 ### REST API Reference
-|Return type       | HTTP Method | URI                                                 | Request Body| Reason   |
-|------------------|-------------|-----------------------------------------------------|-------------|----------|
-| List \<Purchase\>| GET         | /api/purchases                                      |             | List     |
-| Purchase         | GET         | /api/purchases/{id}                                 |             | Retrieve |
-| Purchase         | GET         | /api/purchases/{keyword}                            |             | Retrieve |
-| Purchase         | POST        | /api/purchases                                      | Recipe JSON | Create   |
-| Purchase         | PUT         | /api/purchases/{id}                                 | Recipe JSON | Update   |
-| Purchase         | DELETE      | /api/purchases/{id}                                 | Recipe JSON | Delete   |
-| List \<Purchase\>| GET         | /api/purchases/date/{startDate}/{endDate}           |             | List     |
-| List \<Purchase\>| GET         | /api/purchases/arrivals/date/{startDate}/{endDate}  |             | List     |
-| List \<Purchase\>| GET         | /api/purchases/return/date/{startDate}/{endDate}    |             | List     |
-| List \<Store\>   | GET         | /api/store/{storeId}                                |             | List     |
-| List \<Store\>   | GET         | /api/"stores/{nameLike}"                            |             | Retrieve |
-| store            | Post        | /api/store                                          | Recipe JSON | Create   |
-| store            | Put         | /api/store/{id}                                     | Recipe JSON | Update   |
+|Return type       | HTTP Method | URI                                                 | Request Body| Reason  |
+|------------------|-------------|-----------------------------------------------------|-------------|---------|
+| List \<Purchase\>| GET         | /api/purchases                                      |             | List    |
+| Purchase         | GET         | /api/purchases/{id}                                 |             | Retrieve|
+| Purchase         | GET         | /api/purchases/{keyword}                            |             | Retrieve|
+| Purchase         | POST        | /api/purchases                                      | Recipe JSON | Create  |
+| Purchase         | PUT         | /api/purchases/{id}                                 | Recipe JSON | Update  |
+| Purchase         | DELETE      | /api/purchases/{id}                                 | Recipe JSON | Delete  |
+| List \<Purchase\>| GET         | /api/purchases/date/{startDate}/{endDate}           |             | Retrieve|
+| List \<Purchase\>| GET         | /api/purchases/arrivals/date/{startDate}/{endDate}  |             | Retrieve|
+| List \<Purchase\>| GET         | /api/purchases/return/date/{startDate}/{endDate}    |             | Retrieve|
+| List \<Store\>   | GET         | /api/store/{storeId}                                |             | Retrieve|
+| List \<Store\>   | GET         | /api/"stores/{nameLike}"                            |             | Retrieve|
+| store            | Post        | /api/store                                          | Recipe JSON | Create  |
+| store            | Put         | /api/store/{id}                                     | Recipe JSON | Update  |
 
 
 
