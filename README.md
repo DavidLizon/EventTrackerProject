@@ -26,7 +26,6 @@ Go to http://<IP Address>/8080/PurchaseTracker/index.html
 | List \<Purchase\>| GET         | /api/purchases/date/{startDate}/{endDate}           |             | List     |
 | List \<Purchase\>| GET         | /api/purchases/arrivals/date/{startDate}/{endDate}  |             | List     |
 | List \<Purchase\>| GET         | /api/purchases/return/date/{startDate}/{endDate}    |             | List     |
-|--------------    |----------   |--------------------------------------------------   |----------   |--------  |
 | List \<Store\>   | GET         | /api/store/{storeId}                                |             | List     |
 | List \<Store\>   | GET         | /api/"stores/{nameLike}"                            |             | Retrieve |
 | store            | Post        | /api/store                                          | Recipe JSON | Create   |
