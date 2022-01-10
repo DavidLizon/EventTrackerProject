@@ -7,9 +7,10 @@ import com.skilldistillery.purchases.entities.Store;
 public interface StoreService {
 
 	// Stores
-	List<Store> getAllStores();
+	Store addStore(Store store);
+	Store updateStoreById(Store store, Integer storeId);
 	Store getStoreById(int storeId);
-	
+	List<Store> getAllStores();
 	List<Store> findByNameLike(String name);
 	
 }

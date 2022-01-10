@@ -33,12 +33,12 @@ public class PurchaseController {
 		return purchaseSvc.getAllPurchases();
 	}
 	
-	@PostMapping("purchases")
+	@PostMapping("purchase")
 	public Purchase addPurchase( 
-		@RequestBody Purchase purchase,
-		HttpServletRequest req,
-		HttpServletResponse res
-		) {
+			@RequestBody Purchase purchase,
+			HttpServletRequest req,
+			HttpServletResponse res
+			) {
 		purchaseSvc.addPurchase(purchase);
 			
 		if (purchase.getId() != 0) {
@@ -78,7 +78,7 @@ public class PurchaseController {
 		}
 	}
 	
-	@PutMapping("purchases/{purchaseId}")
+	@PutMapping("purchase/{purchaseId}")
 	public Purchase updatePurchase(
 		@PathVariable Integer purchaseId,
 		@RequestBody Purchase purchase,
@@ -97,7 +97,7 @@ public class PurchaseController {
 		return purchaseSvc.findByPurchaseDateRange(startDate, endDate);
 	}
 
-	@GetMapping("arrivals/date/{startDate}/{endDate}")
+	@GetMapping("purchases/arrivals/date/{startDate}/{endDate}")
 	public List<Purchase> findByArrivalDateRange (
 		@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
 		@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
@@ -105,7 +105,7 @@ public class PurchaseController {
 		return purchaseSvc.findByArrivalDateRange(startDate, endDate);
 	}
 	
-	@GetMapping("return/date/{startDate}/{endDate}")
+	@GetMapping("purchases/return/date/{startDate}/{endDate}")
 	public List<Purchase> findByReturnDateRange (
 		@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
 		@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate

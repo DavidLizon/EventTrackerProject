@@ -22,7 +22,7 @@ public class Store {
 	private String name;
 
 	@Column(name = "number_days_can_return_purchase")
-	private int numberDaysCanReturnPurchase;
+	private Integer numberDaysCanReturnPurchase;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "store")
@@ -49,11 +49,11 @@ public class Store {
 		this.name = name;
 	}
 
-	public int getNumberDaysCanReturnPurchase() {
+	public Integer getNumberDaysCanReturnPurchase() {
 		return numberDaysCanReturnPurchase;
 	}
 
-	public void setNumberDaysCanReturnPurchase(int numberDaysCanReturnPurchase) {
+	public void setNumberDaysCanReturnPurchase(Integer numberDaysCanReturnPurchase) {
 		this.numberDaysCanReturnPurchase = numberDaysCanReturnPurchase;
 	}
 

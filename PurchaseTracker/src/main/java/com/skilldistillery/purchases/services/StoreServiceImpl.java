@@ -36,5 +36,29 @@ public class StoreServiceImpl implements StoreService {
 				return storeRepo.findByNameLike(name);
 			}
 
+			@Override
+			public Store updateStoreById(Store store, Integer storeId) {
+				Optional<Store> storeOpt = storeRepo.findById(storeId);
+				Store updatedStore = null;
+				if(storeOpt.isPresent()) {
+					updatedStore = storeOpt.get();
+				}	
+
+				if(store.getName() != null) {
+					updatedStore.setName(store.getName());
+				}
+				if(store.getNumberDaysCanReturnPurchase() != null) {
+					updatedStore.setNumberDaysCanReturnPurchase(store.getNumberDaysCanReturnPurchase());;
+				}
+				
+				storeRepo.saveAndFlush(updatedStore);
+				return updatedStore;
+			}
+
+			@Override
+			public Store addStore(Store store) {
+				return storeRepo.saveAndFlush(store);
+			}
+
 			
 }
