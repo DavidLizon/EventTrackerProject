@@ -20,6 +20,7 @@ Go to http://<IP Address>/8080/PurchaseTracker/index.html
 |------------------|-------------|-----------------------------------------------------|-------------|----------|
 | List \<Purchase\>| GET         | /api/purchases                                      |             | List     |
 | Purchase         | GET         | /api/purchases/{id}                                 |             | Retrieve |
+| Purchase         | GET         | /api/purchases/{keyword}                            |             | Retrieve |
 | Purchase         | POST        | /api/purchases                                      | Recipe JSON | Create   |
 | Purchase         | PUT         | /api/purchases/{id}                                 | Recipe JSON | Update   |
 | Purchase         | DELETE      | /api/purchases/{id}                                 | Recipe JSON | Delete   |
@@ -30,6 +31,8 @@ Go to http://<IP Address>/8080/PurchaseTracker/index.html
 | List \<Store\>   | GET         | /api/"stores/{nameLike}"                            |             | Retrieve |
 | store            | Post        | /api/store                                          | Recipe JSON | Create   |
 | store            | Put         | /api/store/{id}                                     | Recipe JSON | Update   |
+
+
 
 
 ### Technologies Used
