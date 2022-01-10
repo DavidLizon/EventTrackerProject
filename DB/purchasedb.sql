@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `purchase` (
   `online` TINYINT NULL,
   `purchase_date` DATE NOT NULL,
   `arrival_date` DATE NULL,
+  `delivered` TINYINT NULL,
   `return_date` DATE NULL,
   `returned` TINYINT NULL,
   `total_cost` INT NULL,
@@ -113,15 +114,15 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `purchasedb`;
-INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (1, 'bathroom', 0, '2022-01-07', NULL, '2022-03-07', 0, NULL, 1, 0);
-INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (2, 'shed wood', 1, '2022-01-02', '2022-03-05', '2022-05-05', 0, NULL, 3, 0);
-INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (3, 'kitchen', 1, '2021-12-26', '2022-01-15', '2022-03-05', 0, NULL, 4, 0);
-INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (4, 'living room', 0, '2021-12-15', NULL, '2022-02-15', 0, NULL, 2, 0);
-INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (5, 'bathroom tub', 1, '2021-10-19', '2021-11-02', '2022-01-02', 1, NULL, 2, 1);
-INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (6, 'kitchen flooring', 0, '2021-09-15', NULL, '2021-11-15', 1, NULL, 3, 1);
-INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (7, 'paint - porch', 0, '2021-11-01', NULL, '2022-01-01', 1, NULL, 1, 1);
-INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (8, 'paint', 0, '2022-01-04', NULL, '2022-03-04', 0, NULL, 1, 0);
-INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (9, 'kitchen sink', 1, '2021-10-11', '2022-12-02', '2021-12-11', 0, NULL, 3, 1);
+INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (1, 'bathroom', 0, '2022-01-07', NULL, NULL, '2022-03-07', 0, NULL, 1, 0);
+INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (2, 'shed wood', 1, '2022-01-02', '2022-03-05', 0, '2022-05-05', 0, NULL, 3, 0);
+INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (3, 'kitchen', 1, '2021-12-26', '2022-01-15', 1, '2022-03-05', 0, NULL, 4, 0);
+INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (4, 'living room', 0, '2021-12-15', NULL, NULL, '2022-02-15', 0, NULL, 2, 0);
+INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (5, 'bathroom tub', 1, '2021-10-19', '2021-11-02', 1, '2022-01-02', 1, NULL, 2, 1);
+INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (6, 'kitchen flooring', 0, '2021-09-15', NULL, NULL, '2021-11-15', 1, NULL, 3, 1);
+INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (7, 'paint - porch', 0, '2021-11-01', NULL, NULL, '2022-01-01', 1, NULL, 1, 1);
+INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (8, 'paint', 0, '2022-01-04', NULL, NULL, '2022-03-04', 0, NULL, 1, 0);
+INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (9, 'kitchen sink', 1, '2021-10-11', '2021-12-02', 1, '2021-12-11', 0, NULL, 3, 1);
 
 COMMIT;
 

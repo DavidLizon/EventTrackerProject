@@ -31,6 +31,8 @@ public class Purchase {
 	@Column(name = "return_date")
 	private LocalDate returnDate;
 	
+	private Boolean delivered;
+	
 	private Boolean returned;
 
 	@ManyToOne
@@ -91,6 +93,14 @@ public class Purchase {
 
 	public void setReturnDate(LocalDate returnDate) {
 		this.returnDate = returnDate;
+	}
+
+	public Boolean getDelivered() {
+		return delivered;
+	}
+
+	public void setDelivered(Boolean delivered) {
+		this.delivered = delivered;
 	}
 
 	public Boolean isReturned() {

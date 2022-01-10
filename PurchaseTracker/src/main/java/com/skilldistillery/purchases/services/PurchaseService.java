@@ -26,6 +26,7 @@ public interface PurchaseService {
 	List<Purchase> findByPurchaseDateRange(LocalDate startDate, LocalDate endDate);
 	List<Purchase> findByArrivalDateRange(LocalDate startDate, LocalDate endDate);
 	List<Purchase> findByReturnDateRange(LocalDate startDate, LocalDate endDate);
+	List<Purchase> findByDelivered(Boolean delivered);
 	List<Purchase> findByOrderedOnline(Boolean orderedOnline);
 	
 	

@@ -86,6 +86,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 		if(purchase.isOnline() != null) {
 			updatedPurchase.setOnline(purchase.isOnline());
 		}
+		if(purchase.getDelivered() != null) {
+			updatedPurchase.setDelivered(purchase.getDelivered());
+		}
 		if(purchase.getPurchaseDate() != null) {
 			updatedPurchase.setPurchaseDate(purchase.getPurchaseDate());
 		}
@@ -116,6 +119,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public List<Purchase> findByReturnDateRange(LocalDate startDate, LocalDate endDate) {
 		return purchaseRepo.findByReturnDateBetween(startDate, endDate);
+	}
+
+	@Override
+	public List<Purchase> findByDelivered(Boolean delivered) {
+		return purchaseRepo.findAllByDelivered(delivered);
 	}
 
 	@Override

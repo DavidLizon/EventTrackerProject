@@ -13,5 +13,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Integer> {
 	List<Purchase> findByPurchaseDateBetween(LocalDate startDate, LocalDate endDate);
 	List<Purchase> findByArrivalDateBetween(LocalDate startDate, LocalDate endDate);
 	List<Purchase> findByReturnDateBetween(LocalDate startDate, LocalDate endDate);
+	List<Purchase> findAllByDelivered(Boolean delivered);
 	List<Purchase> findAllByOnline(Boolean online);
 }

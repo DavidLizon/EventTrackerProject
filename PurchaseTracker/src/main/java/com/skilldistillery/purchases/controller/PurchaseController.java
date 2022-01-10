@@ -107,6 +107,13 @@ public class PurchaseController {
 		return purchaseSvc.findByReturnDateRange(startDate, endDate);
 	}
 	
+	@GetMapping("purchases/online/delivered/{delivered}")
+	public List<Purchase> findByDelivered(
+			@PathVariable Boolean delivered
+			) {
+		return purchaseSvc.findByDelivered(delivered);
+	}
+
 	@GetMapping("purchases/online/{online}")
 	public List<Purchase> findAllOrderedOnline(
 		@PathVariable Boolean online
