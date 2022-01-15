@@ -56,7 +56,7 @@ function displayPurchases(purchases){
 	purchaseDiv.appendChild(ul);
 
 	let li = document.createElement('li');
-	li.textContent = purchase.purchaseDate;
+	li.textContent = purchase.purchaseDate; 
 	ul.appendChild(li);
 	
 	
