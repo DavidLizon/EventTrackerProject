@@ -69,20 +69,6 @@ CREATE TABLE IF NOT EXISTS `item` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
-USE `purchasedb` ;
-
--- -----------------------------------------------------
--- Placeholder table for view `view1`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `view1` (`id` INT);
-
--- -----------------------------------------------------
--- View `view1`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `view1`;
-DROP VIEW IF EXISTS `view1` ;
-USE `purchasedb`;
-
 SET SQL_MODE = '';
 DROP USER IF EXISTS purchaseuser@localhost;
 SET SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
@@ -114,7 +100,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `purchasedb`;
-INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (1, 'bathroom', 0, '2022-01-07', NULL, NULL, '2022-03-07', 0, NULL, 1, 0);
+INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (1, 'bathroom', 0, '2022-01-07', NULL, 0, '2022-03-07', 0, NULL, 1, 0);
 INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (2, 'shed wood', 1, '2022-01-02', '2022-03-05', 0, '2022-05-05', 0, NULL, 3, 0);
 INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (3, 'kitchen', 1, '2021-12-26', '2022-01-15', 1, '2022-03-05', 0, NULL, 4, 0);
 INSERT INTO `purchase` (`id`, `name`, `online`, `purchase_date`, `arrival_date`, `delivered`, `return_date`, `returned`, `total_cost`, `store_id`, `past_return_date`) VALUES (4, 'living room', 0, '2021-12-15', NULL, NULL, '2022-02-15', 0, NULL, 2, 0);
