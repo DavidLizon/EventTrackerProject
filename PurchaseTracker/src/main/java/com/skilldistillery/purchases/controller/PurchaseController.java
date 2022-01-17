@@ -33,6 +33,18 @@ public class PurchaseController {
 		return purchaseSvc.getAllPurchases();
 	}
 	
+	@GetMapping("purchase/{purchaseId}")
+	public Purchase getPurchaseById(
+		@PathVariable Integer purchaseId,
+		HttpServletResponse res
+		) {
+		Purchase purchase = purchaseSvc.getPurchaseByID(purchaseId);
+		if(purchase == null) {
+			res.setStatus(404);
+		} 
+		return purchase;
+	}
+	
 	@PostMapping("purchase")
 	public Purchase addPurchase( 
 			@RequestBody Purchase purchase,
