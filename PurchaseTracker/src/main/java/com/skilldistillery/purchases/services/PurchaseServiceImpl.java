@@ -103,6 +103,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 		if(purchase.isReturned() != null) {
 			updatedPurchase.setReturned(purchase.isReturned());
 		}
+		if(purchase.getStore() != null ) {
+			updatedPurchase.setStore(purchase.getStore());
+		}
 		purchaseRepo.saveAndFlush(updatedPurchase);
 		return updatedPurchase;
 	}

@@ -7,6 +7,7 @@ window.addEventListener('load', function(e){
 
 function init() {
 	console.log('In init');
+	getStoresXML();
 	getListPurchases();
 	//TODO - setup event listeners for forms, etc.
 }
@@ -29,8 +30,8 @@ function getListPurchases() {
 			} else {
 				console.log('Error retrieving purchses: ' + xhr.status);
 			}
-		}
 	}
+		}
 	xhr.send();
 };
 
@@ -58,6 +59,25 @@ function getPurchaseXML(purchaseId){
 // 	purchaseDiv.textContent = msg;
 // };
 
+function deletePurchaseXML(purchase){
+	let xhr = new XMLHttpRequest();
+	xhr.open('DELETE', `api/purchases/${purchase.id}`);
+
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState === 4) {
+			if (xhr.status === 200 || xhr.status == 204) {
+				// let purchase = JSON.parse(xhr.responseText);
+				getListPurchases();
+			} else if (xhr.status === 400) {
+				displayError(`Purchase number: ${purhcaseId} does not exist`);
+			} else {
+				displayError('Error retreiving purchase: ' + xhr.status);
+			}
+		}
+	}
+	xhr.send();
+}
+
 function getStoresXML(){
 	let xhr = new XMLHttpRequest();
 	xhr.open('GET', 'api/stores/');
@@ -66,8 +86,9 @@ function getStoresXML(){
 		if(xhr.readyState === 4) {
 			if (xhr.status === 200) {
 				let stores = JSON.parse(xhr.responseText);
-				displayStores(stores);
-				// returnStores(stores)
+				// displayStores(stores);
+				// storeList = stores;
+				returnStores(stores)
 			} else if (xhr.status === 400) {
 				displayError(`Stores do not exist`);
 			} else {
@@ -79,13 +100,6 @@ function getStoresXML(){
 }
 
 function updatePurchaseXML(updatedPurchase){
-
-	// console.log('ID: ' + updatedPurchase.id);
-	// for (let element in updatedPurchase) {
-	// 	console.log(element + ": " + updatedPurchase[element]);
-	// 	// label.textContent = element;
-	// 	// input.value = updatedPurchase[element];
-	// }
 
 	let xhr = new XMLHttpRequest();
 	xhr.open('PUT', `api/purchase/${updatedPurchase.id}`);
@@ -108,13 +122,6 @@ function updatePurchaseXML(updatedPurchase){
 
 function createPurchaseXML(newPurchase){
 
-	// console.log('ID: ' + updatedPurchase.id);
-	// for (let element in updatedPurchase) {
-	// 	console.log(element + ": " + updatedPurchase[element]);
-	// 	// label.textContent = element;
-	// 	// input.value = updatedPurchase[element];
-	// }
-
 	let xhr = new XMLHttpRequest();
 	xhr.open('POST', 'api/purchase/');
 
@@ -136,8 +143,6 @@ function createPurchaseXML(newPurchase){
 
 function displayAllPurchases(purchases){
 
-	console.log('in displayAllPurchases');
-	
 	let purchaseDiv = document.getElementById('purchaseList');
 	purchaseDiv.textContent = 'purchases made: ' + purchases.length;
 	purchaseDiv.textContent = '';
@@ -151,9 +156,9 @@ function displayAllPurchases(purchases){
 	create.addEventListener('click', function(e) {
 		e.preventDefault();
 
-		// createPurchase();
+		getStoresXML();
+		createPurchase();
 		// displayStores(stores)
-		// getStoresXML();
 
 	});
 
@@ -162,9 +167,6 @@ function displayAllPurchases(purchases){
 	table.id = 'purchaseDateTable';
 	// document.body.appendChild(table);
 	purchaseDiv.appendChild(table);
-
-	// let tBody = document.createElement('tBody');
-	// table.appendChild(tBody);
 
 	for(let purchase of purchases) {
 
@@ -210,7 +212,7 @@ function displayAllPurchases(purchases){
 			td.textContent = 'Returned';
 			tBody.appendChild(td)
 		} else {	
-			// if !online display Orfer Comlete, if en route display en route, 
+			// if !online display Order Comlete, if en route display en route, 
 			// if delivered display Items delivered
 			td = document.createElement('td');
 			td.id = 'statusTable';
@@ -262,17 +264,7 @@ function displayAllPurchases(purchases){
 			td = document.createElement('td');
 			td.textContent = calcuateReturnDate(purchase);
 			tBody.appendChild(td)
-			/*
-			if(purchase['returnDate'] == null) {
-				let date = new Date(purchase['purchaseDate']);
-				let daysToAdd = purchase['store']['numberDaysCanReturnPurchase'];
-				let newDate = new Date(new Date().setDate(date.getDate() + daysToAdd ));
-				td.textContent = `Return By: ${newDate}`;
-			} else {
-				td.textContent = `Return By: ${purchase['returnDate']}`;
-			}
-			tBody.appendChild(td)
-			*/
+
 		}
 	}
 }
@@ -295,10 +287,21 @@ function displayPurchase(purchase) {
 
 	var todayDate = new Date().toJSON().slice(0, 10);
 	
-	console.log('in displayPurchase');
-	
 	let purchaseDiv = document.getElementById('purchaseList');
 	purchaseDiv.textContent = '';
+
+	let deletePurchase = document.createElement('input');
+	deletePurchase.type = 'submit';
+	deletePurchase.id = 'deleteButton';
+	deletePurchase.value = 'Delete Purchase';
+	purchaseDiv.appendChild(deletePurchase);
+
+	deletePurchase.addEventListener('click', function(e) {
+		e.preventDefault();
+
+		deletePurchaseXML(purchase);
+
+	});
 
 	var update = document.createElement('button');
 	update.id = 'updateButton';
@@ -307,7 +310,9 @@ function displayPurchase(purchase) {
 
 	update.addEventListener('click', function(e) {
 		e.preventDefault();
+
 		updatePurchaseForm(purchase);
+		getStoresXML();
 	});
 
 	let table = document.createElement('table');
@@ -421,10 +426,12 @@ function displayPurchase(purchase) {
 
 function updatePurchaseForm(purchase) {
 
-	// let purchaseDiv = document.getElementById('purchaseList');
-	// purchaseDiv.textContent = '';
-
 	purchaseForm();
+
+	let storeThing = purchase.store;
+	console.log(storeThing);
+
+
 	let updateForm = document.getElementById('updateForm');
 
 	let name = document.getElementById('name');
@@ -448,146 +455,40 @@ function updatePurchaseForm(purchase) {
 	let delivered = document.getElementById('delivered');
 	delivered.checked = purchase.delivered;
 
-	// let updateForm = document.createElement('form');
-	// purchaseDiv.appendChild(updateForm);
 
-	// // name
-	// let label = document.createElement('label');
-	// label.for = 'name';
-	// label.textContent = 'Name: ';
-	// updateForm.appendChild(label);
 
-	// let input = document.createElement('input');
-	// input.type = 'text';
-	// input.id = 'name'
-	// input.value = purchase.name;
-	// updateForm.appendChild(input);
 
-	// let lineBreak = document.createElement('br');
-	// updateForm.appendChild(lineBreak);
+	label = document.createElement('label');
+	label.for = 'store';
+	label.textContent = 'Store: ';
+ 
+	let select = document.createElement('select');
+	select.id = 'stores';
+	select.name = 'stores';
+	select.onchange = 'updateStore';
+	updateForm.appendChild(select);
 
-	// // online
-	// label = document.createElement('label');
-	// label.for = 'online';
-	// label.textContent = 'Online: ';
-	// updateForm.appendChild(label);
+	let option = document.createElement('option');
+	// option.value = store['name'];
+	// option.textContent = store['name'];
+	option.value = 2;
+	option.textContent = 'General Store';
+	select.appendChild(option);
 
-	// input = document.createElement('input');
-	// input.type = 'checkbox';
-	// input.id = 'online';
-	// input.checked = purchase.online;
-	// updateForm.appendChild(input);
+		// storeList
+		// console.log('STORE LIST: ' + storeList);
+		// console.log('STORE LIST.store: ' + storeList.store);
+		for (let store in storeList) {
+			// console.log('STORE: ' + store);
+		}
 
-	// lineBreak = document.createElement('br');
-	// updateForm.appendChild(lineBreak);
 
-	// // purchaseDate
-	// label = document.createElement('label');
-	// label.for = 'purchaseDate';
-	// label.textContent = 'Purchased: ';
-	// updateForm.appendChild(label);
-
-	// input = document.createElement('input');
-	// input.type = 'text';
-	// input.id = 'purchaseDate';
-	// input.value = purchase.purchaseDate;
-	// updateForm.appendChild(input);
-
-	// lineBreak = document.createElement('br');
-	// updateForm.appendChild(lineBreak);
-
-	// // arrivalDate
-	// label = document.createElement('label');
-	// label.for = 'arrivalDate';
-	// label.textContent = 'Arriving: ';
-	// updateForm.appendChild(label);
-
-	// input = document.createElement('input');
-	// input.type = 'text';
-	// input.id = 'arrivalDate';
-	// input.value = purchase.arrivalDate;
-	// updateForm.appendChild(input);
-
-	// lineBreak = document.createElement('br');
-	// updateForm.appendChild(lineBreak);
-
-	// // returnDate
-	// label = document.createElement('label');
-	// label.for = 'returnDate';
-	// label.textContent = 'Return By: ';
-	// updateForm.appendChild(label);
-
-	// input = document.createElement('input');
-	// input.type = 'text';
-	// input.id = 'returnDate';
-	// input.value = purchase.returnDate;
-	// updateForm.appendChild(input);
-
-	// lineBreak = document.createElement('br');
-	// updateForm.appendChild(lineBreak);
-
-	// // returned
-	// label = document.createElement('label');
-	// label.for = 'returned';
-	// label.textContent = 'Returned: ';
-	// updateForm.appendChild(label);
-
-	// input = document.createElement('input');
-	// input.type = 'checkbox';
-	// input.id = 'returned';
-	// input.checked = purchase.returned;
-	// updateForm.appendChild(input);
-
-	// lineBreak = document.createElement('br');
-	// updateForm.appendChild(lineBreak);
-
-	// // delivered
-	// label = document.createElement('label');
-	// label.for = 'delivered';
-	// label.textContent = 'Delivered: ';
-	// updateForm.appendChild(label);
-
-	// input = document.createElement('input');
-	// input.type = 'checkbox';
-	// input.id = 'delivered';
-	// input.checked = purchase.returned;
-	// updateForm.appendChild(input);
-
-	// lineBreak = document.createElement('br');
-	// updateForm.appendChild(lineBreak);
 
 	let submit = document.createElement('input');
 	submit.type ='submit';
 	submit.id = 'submitButton';
 	submit.value = 'Submit';
 	updateForm.appendChild(submit);
-
-
-
-
-	// use to loop through single object and print each property/element of object
-	
-	// lineBreak = document.createElement('br');
-	// updateForm.appendChild(lineBreak);
-	// lineBreak = document.createElement('br');
-	// updateForm.appendChild(lineBreak);
-	// lineBreak = document.createElement('br');
-	// updateForm.appendChild(lineBreak);
-
-	// for (let element in purchase) {
-	// 	label = document.createElement('label');
-	// 	label.textContent = element;
-	// 	updateForm.appendChild(label);
-	
-	// 	input = document.createElement('input');
-	// 	input.type = 'text';
-	// 	input.value = purchase[element];
-	// 	updateForm.appendChild(input);
-	
-	// 	lineBreak = document.createElement('br');
-	// 	updateForm.appendChild(lineBreak);
-	// }
-
 
 	submit.addEventListener('click', function(e){
 		e.preventDefault();
@@ -603,11 +504,35 @@ function updatePurchaseForm(purchase) {
 		purchase.arrivalDate = f.arrivalDate.value;
 		purchase.returnDate = f.returnDate.value;
 
+		purchase.store.id = f.stores.value;
+		console.log(storeThing);
+
 		let cboxDelivered = document.querySelector('#delivered');
 		purchase.delivered = cboxDelivered.checked;
 		
 		let cboxReturned = document.querySelector('#returned');
 		purchase.returned = cboxReturned.checked;
+
+		// purchase[store].id.value = 3;
+
+		// test adding store
+
+
+
+
+
+
+
+		// newPurchase[store][id] = '1';
+		// let select = document.getElementById('stores');
+		// let newStore = select[option];
+		// console.log(newStore);
+
+
+		// storeList
+		// for (let store of storeList) {
+		// 	console.log(store);
+		// }
 
 		updatePurchaseXML(purchase);
 	});
@@ -653,7 +578,6 @@ function createPurchase() {
 
 		let cboxOnline = document.querySelector('#online');
 		newPurchase.online = cboxOnline.checked;
-		// newPurchase.online = f.online.value;
 
 		newPurchase.purchaseDate = f.purchaseDate.value;
 		newPurchase.arrivalDate = f.arrivalDate.value;
@@ -661,45 +585,15 @@ function createPurchase() {
 
 		let cboxDelivered = document.querySelector('#delivered');
 		newPurchase.delivered = cboxDelivered.checked;
-		// newPurchase.delivered = f.delivered.value;
 
 		let cboxReturned = document.querySelector('#returned');
 		newPurchase.returned = cboxReturned.checked;
-		// newPurchase.returned = f.returned.value;
 
 		// test adding store
-		newPurchase[store][id] = '1';
+
 		createPurchaseXML(newPurchase);
 		
 	});
-
-		// updatePurchase(updatedPurchase);
-
-			/*
-		let cboxOnline = document.querySelector('#online');
-		console.log('in SUBMIT: cbox ' + cboxOnline.checked)
-		purchase.online = cboxOnline.checked;
-
-
-		let cboxDelivered = document.querySelector('#delivered');
-		purchase.delivered = cboxDelivered.checked;
-		
-		let cboxReturned = document.querySelector('#returned');
-		purchase.returned = cboxReturned.checked;
-
-
-
-		// name
-		// online
-		// purchaseDate
-		// arrivalDate
-		// returnDate
-		// delivered
-		// returned
-
-		// store
-
-	*/
 }
 
 function purchaseForm() {
@@ -727,15 +621,7 @@ function purchaseForm() {
 	updateForm.appendChild(lineBreak);
 
 	// store
-	// getStoresXML();
-	// let stores = returnStores();
-	// label = document.createElement('label');
-	// label.for = 'store';
-	// label.textContent = 'Store: ';
 
-
-
-	// displayStores(stores);
 
 	// online
 	label = document.createElement('label');
@@ -828,11 +714,18 @@ function purchaseForm() {
 	updateForm.appendChild(lineBreak);
 }
 
+var storeList = {};
+
+function returnStores(stores){
+	storeList = stores;
+	console.log('in returnStores')
+	// console.log(storeList);	
+	return stores;
+}
+
+
 function displayStores(stores){
-	// for (let store of stores) {
-	// 	console.log(store);
-	// 	console.log(store['name']);
-	// }
+
 	let purchaseDiv = document.getElementById('purchaseList');
 
 	label = document.createElement('label');
@@ -841,6 +734,7 @@ function displayStores(stores){
  
 	let select = document.createElement('select');
 	select.id = 'stores';
+	select.onchange = 'updateStore';
 	purchaseDiv.appendChild(select);
 
 	for (let store of stores) {
@@ -848,6 +742,12 @@ function displayStores(stores){
 		option.value = store['name'];
 		option.textContent = store['name'];
 		select.appendChild(option);
+	}
+
+	function update(){
+		var select = document.getElementById('option');
+		var option = select.options[select.selectedIndex];
+		console.log('store: ' + select.options[select.selectedIndex])
 	}
 	
 };
