@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.purchases.entities.Purchase;
+import com.skilldistillery.purchases.entities.Store;
 import com.skilldistillery.purchases.repositories.PurchaseRepository;
+import com.skilldistillery.purchases.repositories.StoreRepository;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService {

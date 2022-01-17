@@ -34,7 +34,7 @@ function getListPurchases() {
 	xhr.send();
 };
 
-function getPurchase(purchaseId){
+function getPurchaseXML(purchaseId){
 	let xhr = new XMLHttpRequest();
 	xhr.open('GET', `api/purchase/${purchaseId}`);
 
@@ -58,7 +58,27 @@ function getPurchase(purchaseId){
 // 	purchaseDiv.textContent = msg;
 // };
 
-function updatePurchase(updatedPurchase){
+function getStoresXML(){
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', 'api/stores/');
+
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState === 4) {
+			if (xhr.status === 200) {
+				let stores = JSON.parse(xhr.responseText);
+				displayStores(stores);
+				// returnStores(stores)
+			} else if (xhr.status === 400) {
+				displayError(`Stores do not exist`);
+			} else {
+				displayError('Error retreiving purchase: ' + xhr.status);
+			}
+		}
+	}
+	xhr.send();
+}
+
+function updatePurchaseXML(updatedPurchase){
 
 	// console.log('ID: ' + updatedPurchase.id);
 	// for (let element in updatedPurchase) {
@@ -86,6 +106,34 @@ function updatePurchase(updatedPurchase){
 	xhr.send(JSON.stringify(updatedPurchase));
 }
 
+function createPurchaseXML(newPurchase){
+
+	// console.log('ID: ' + updatedPurchase.id);
+	// for (let element in updatedPurchase) {
+	// 	console.log(element + ": " + updatedPurchase[element]);
+	// 	// label.textContent = element;
+	// 	// input.value = updatedPurchase[element];
+	// }
+
+	let xhr = new XMLHttpRequest();
+	xhr.open('POST', 'api/purchase/');
+
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState === 4) {
+			if (xhr.status === 200 || xhr.status == 201 ) {
+				let purchase = JSON.parse(xhr.responseText);
+				displayPurchase(purchase);
+			} else if (xhr.status === 400) {
+				displayError(`Purchase number: ${newPurchase} does not exist`);
+			} else {
+				displayError('Error retreiving purchase: ' + xhr.status);
+			}
+		}
+	}
+	xhr.setRequestHeader('Content-type', 'application/json');
+	xhr.send(JSON.stringify(newPurchase));
+}
+
 function displayAllPurchases(purchases){
 
 	console.log('in displayAllPurchases');
@@ -94,6 +142,21 @@ function displayAllPurchases(purchases){
 	purchaseDiv.textContent = 'purchases made: ' + purchases.length;
 	purchaseDiv.textContent = '';
 	
+	let create = document.createElement('input');
+	create.type = 'submit';
+	create.id = 'submitButton';
+	create.value = 'New Purchase';
+	purchaseDiv.appendChild(create);
+
+	create.addEventListener('click', function(e) {
+		e.preventDefault();
+
+		// createPurchase();
+		// displayStores(stores)
+		// getStoresXML();
+
+	});
+
 
 	let table = document.createElement('table');
 	table.id = 'purchaseDateTable';
@@ -122,7 +185,7 @@ function displayAllPurchases(purchases){
 		let tBody = document.createElement('tbody');
 		tBody.addEventListener('click', function(e){
 			e.preventDefault();
-			getPurchase(purchase.id);
+			getPurchaseXML(purchase.id);
 		});
 		table.appendChild(tBody);
 
@@ -226,13 +289,10 @@ function calcuateReturnDate(purchase){
 
 		console.log('in calcuateReturnDate');
 	}
-	
 }
 
 function displayPurchase(purchase) {
 
-	
-	
 	var todayDate = new Date().toJSON().slice(0, 10);
 	
 	console.log('in displayPurchase');
@@ -361,10 +421,10 @@ function displayPurchase(purchase) {
 
 function updatePurchaseForm(purchase) {
 
-	let purchaseDiv = document.getElementById('purchaseList');
-	purchaseDiv.textContent = '';
+	// let purchaseDiv = document.getElementById('purchaseList');
+	// purchaseDiv.textContent = '';
 
-	purchaseForm(purchaseDiv, purchase);
+	purchaseForm();
 	let updateForm = document.getElementById('updateForm');
 
 	let name = document.getElementById('name');
@@ -505,7 +565,7 @@ function updatePurchaseForm(purchase) {
 
 
 
-
+	// use to loop through single object and print each property/element of object
 	
 	// lineBreak = document.createElement('br');
 	// updateForm.appendChild(lineBreak);
@@ -549,7 +609,7 @@ function updatePurchaseForm(purchase) {
 		let cboxReturned = document.querySelector('#returned');
 		purchase.returned = cboxReturned.checked;
 
-		updatePurchase(purchase);
+		updatePurchaseXML(purchase);
 	});
 
 	/*
@@ -568,26 +628,67 @@ function updatePurchaseForm(purchase) {
 
 
 function createPurchase() {
-	let create
+
+	purchaseForm();
+	let updateForm = document.getElementById('updateForm');
+	let name = document.getElementById('name');
+	let online = document.getElementById('online');
+	let purchaseDate = document.getElementById('purchaseDate');
+	let arrivalDate = document.getElementById('arrivalDate');
+	let returnDate = document.getElementById('returnDate');
+	let returned = document.getElementById('returned');
+	let delivered = document.getElementById('delivered');
 
 	let submit = document.createElement('input');
 	submit.type = 'submit';
 	submit.id = 'submitButton';
 	submit.value = 'Submit';
-	createForm.appendChild(submit);
+	updateForm.appendChild(submit);
 
-		// let updatedPurchase = {};
-		// updatedPurchase.name = f.name.value;
-		// updatedPurchase.online = f.online.value;
-		// updatedPurchase.purchaseDate = f.purchaseDate.value;
-		// updatedPurchase.arrivalDate = f.arrivalDate.value;
-		// updatedPurchase.returnDate = f.returnDate.value;
-		// updatedPurchase.delivered = f.delivered.value;
-		// updatedPurchase.returned = f.returned.value;
+	submit.addEventListener('click', function(e){
+
+		let f = updateForm;
+		let newPurchase = {};
+		newPurchase.name = f.name.value;
+
+		let cboxOnline = document.querySelector('#online');
+		newPurchase.online = cboxOnline.checked;
+		// newPurchase.online = f.online.value;
+
+		newPurchase.purchaseDate = f.purchaseDate.value;
+		newPurchase.arrivalDate = f.arrivalDate.value;
+		newPurchase.returnDate = f.returnDate.value;
+
+		let cboxDelivered = document.querySelector('#delivered');
+		newPurchase.delivered = cboxDelivered.checked;
+		// newPurchase.delivered = f.delivered.value;
+
+		let cboxReturned = document.querySelector('#returned');
+		newPurchase.returned = cboxReturned.checked;
+		// newPurchase.returned = f.returned.value;
+
+		// test adding store
+		newPurchase[store][id] = '1';
+		createPurchaseXML(newPurchase);
+		
+	});
 
 		// updatePurchase(updatedPurchase);
 
 			/*
+		let cboxOnline = document.querySelector('#online');
+		console.log('in SUBMIT: cbox ' + cboxOnline.checked)
+		purchase.online = cboxOnline.checked;
+
+
+		let cboxDelivered = document.querySelector('#delivered');
+		purchase.delivered = cboxDelivered.checked;
+		
+		let cboxReturned = document.querySelector('#returned');
+		purchase.returned = cboxReturned.checked;
+
+
+
 		// name
 		// online
 		// purchaseDate
@@ -601,7 +702,10 @@ function createPurchase() {
 	*/
 }
 
-function purchaseForm(purchaseDiv, purchase) {
+function purchaseForm() {
+
+	let purchaseDiv = document.getElementById('purchaseList');
+	purchaseDiv.textContent = '';
 
 	let updateForm = document.createElement('form');
 	updateForm.id = 'updateForm';
@@ -621,6 +725,17 @@ function purchaseForm(purchaseDiv, purchase) {
 
 	let lineBreak = document.createElement('br');
 	updateForm.appendChild(lineBreak);
+
+	// store
+	// getStoresXML();
+	// let stores = returnStores();
+	// label = document.createElement('label');
+	// label.for = 'store';
+	// label.textContent = 'Store: ';
+
+
+
+	// displayStores(stores);
 
 	// online
 	label = document.createElement('label');
@@ -711,6 +826,29 @@ function purchaseForm(purchaseDiv, purchase) {
 
 	lineBreak = document.createElement('br');
 	updateForm.appendChild(lineBreak);
-
-
 }
+
+function displayStores(stores){
+	// for (let store of stores) {
+	// 	console.log(store);
+	// 	console.log(store['name']);
+	// }
+	let purchaseDiv = document.getElementById('purchaseList');
+
+	label = document.createElement('label');
+	label.for = 'store';
+	label.textContent = 'Store: ';
+ 
+	let select = document.createElement('select');
+	select.id = 'stores';
+	purchaseDiv.appendChild(select);
+
+	for (let store of stores) {
+		let option = document.createElement('option');
+		option.value = store['name'];
+		option.textContent = store['name'];
+		select.appendChild(option);
+	}
+	
+};
+
