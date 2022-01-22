@@ -87,8 +87,9 @@ function getStoresXML(){
 			if (xhr.status === 200) {
 				let stores = JSON.parse(xhr.responseText);
 				// displayStores(stores);
-				// storeList = stores;
-				returnStores(stores)
+				storeList = stores;
+				console.log(storeList[0])
+				// returnStores(stores)
 			} else if (xhr.status === 400) {
 				displayError(`Stores do not exist`);
 			} else {
@@ -462,25 +463,26 @@ function updatePurchaseForm(purchase) {
 	label.for = 'store';
 	label.textContent = 'Store: ';
  
-	let select = document.createElement('select');
-	select.id = 'stores';
-	select.name = 'stores';
-	select.onchange = 'updateStore';
-	updateForm.appendChild(select);
+	// let select = document.createElement('select');
+	// select.id = 'stores';
+	// select.name = 'stores';
+	// select.onchange = 'updateStore';
+	// updateForm.appendChild(select);
 
-	let option = document.createElement('option');
-	// option.value = store['name'];
-	// option.textContent = store['name'];
-	option.value = 2;
-	option.textContent = 'General Store';
-	select.appendChild(option);
 
-		// storeList
-		// console.log('STORE LIST: ' + storeList);
-		// console.log('STORE LIST.store: ' + storeList.store);
-		for (let store in storeList) {
-			// console.log('STORE: ' + store);
-		}
+
+		// // storeList
+		// // console.log('STORE LIST: ' + storeList);
+		// // console.log('STORE LIST.store: ' + storeList.store);
+		// for (let store of storeList) {
+		// 	let option = document.createElement('option');
+		// 	// option.value = store['name'];
+		// 	// option.textContent = store['name'];
+		// 	console.log(store);
+		// 	option.text = store['name'];
+		// 	select.appendChild(option);
+		// 	// console.log('STORE: ' + store);
+		// }
 
 
 
@@ -504,7 +506,7 @@ function updatePurchaseForm(purchase) {
 		purchase.arrivalDate = f.arrivalDate.value;
 		purchase.returnDate = f.returnDate.value;
 
-		purchase.store.id = f.stores.value;
+		purchase.store.id = f.store.value;
 		console.log(storeThing);
 
 		let cboxDelivered = document.querySelector('#delivered');
@@ -513,26 +515,6 @@ function updatePurchaseForm(purchase) {
 		let cboxReturned = document.querySelector('#returned');
 		purchase.returned = cboxReturned.checked;
 
-		// purchase[store].id.value = 3;
-
-		// test adding store
-
-
-
-
-
-
-
-		// newPurchase[store][id] = '1';
-		// let select = document.getElementById('stores');
-		// let newStore = select[option];
-		// console.log(newStore);
-
-
-		// storeList
-		// for (let store of storeList) {
-		// 	console.log(store);
-		// }
 
 		updatePurchaseXML(purchase);
 	});
@@ -621,7 +603,22 @@ function purchaseForm() {
 	updateForm.appendChild(lineBreak);
 
 	// store
+	let select = document.createElement('select');
+	select.id = 'store';
+	select.name = 'store';
+	select.onchange = 'updateStore';
+	updateForm.appendChild(select);
 
+	for (let store of storeList) {
+		let option = document.createElement('option');
+		console.log(store);
+		option.text = store['name'];
+		option.value = store.id;
+		select.appendChild(option);
+	}
+
+	lineBreak = document.createElement('br');
+	updateForm.appendChild(lineBreak);
 
 	// online
 	label = document.createElement('label');
@@ -714,12 +711,13 @@ function purchaseForm() {
 	updateForm.appendChild(lineBreak);
 }
 
-var storeList = {};
+var storeList;
+console.log('outside returntStores')
 
 function returnStores(stores){
 	storeList = stores;
 	console.log('in returnStores')
-	// console.log(storeList);	
+	console.log('storeList: ' + storeList);	
 	return stores;
 }
 
