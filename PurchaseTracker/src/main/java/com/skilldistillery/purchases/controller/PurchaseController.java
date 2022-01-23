@@ -23,7 +23,7 @@ import com.skilldistillery.purchases.services.PurchaseService;
 
 @RestController
 @RequestMapping("api")
-@CrossOrigin({ "*", "http://localhost:4200" })
+@CrossOrigin({ "*", "http://localhost:4202" })
 public class PurchaseController {
 
 	@Autowired
@@ -34,7 +34,7 @@ public class PurchaseController {
 		return purchaseSvc.getAllPurchases();
 	}
 	
-	@GetMapping("purchase/{purchaseId}")
+	@GetMapping("purchases/{purchaseId}")
 	public Purchase getPurchaseById(
 		@PathVariable Integer purchaseId,
 		HttpServletResponse res
@@ -46,7 +46,7 @@ public class PurchaseController {
 		return purchase;
 	}
 	
-	@PostMapping("purchase")
+	@PostMapping("purchases")
 	public Purchase addPurchase( 
 			@RequestBody Purchase purchase,
 			HttpServletRequest req,
@@ -66,7 +66,7 @@ public class PurchaseController {
 		return null;
 	}
 	
-	@GetMapping("purchases/{keyword}")
+	@GetMapping("purchases/keyword/{keyword}")
 	public List<Purchase> findByPurchaseNameLike(
 			@PathVariable String keyword,
 			HttpServletResponse res
@@ -91,7 +91,7 @@ public class PurchaseController {
 		}
 	}
 	
-	@PutMapping("purchase/{purchaseId}")
+	@PutMapping("purchases/{purchaseId}")
 	public Purchase updatePurchase(
 		@PathVariable Integer purchaseId,
 		@RequestBody Purchase purchase,

@@ -1,1 +1,58 @@
-<p>home works!</p>
+<h1>Purchase Tracker</h1>
+<h3>What have I purchased and when can I return it.</h3>
+
+<button>Add Purchase</button><br><br>
+
+<div *ngIf="!selectedPurchase">
+  <div *ngFor="let purchase of purchases" >
+  <table class="table table-striped table-hover" (click)="displayPurchase(purchase)">
+
+    <thead class="table-warning">
+      <tr>
+        <th>{{purchase.purchaseDate}}</th>
+        <th>Online: {{purchase.online}}</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+  </thead>
+    <tbody>
+      <!-- <tr *ngFor="let purchase of purchases"> -->
+      <tr>
+        <td [rowSpan]="3" >Project: <strong>{{purchase.name}}</strong></td>
+        <td *ngIf="purchase.store.name" width='75'>{{purchase.store.name}}</td>
+        <td>
+          <tr>Delivered: {{purchase.delivered}}</tr>
+          <tr>Arriving: {{purchase.arrivalDate}}</tr>
+          <tr>Return by: {{purchase.returnDate}}</tr>
+        </td>
+        <td>Returned: {{purchase.returned}}</td>
+        <td>Past Return Date: {{purchase.pastReturnDate}}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+
+<div *ngIf="selectedPurchase">
+  <p>Purchased: {{selectedPurchase.purchaseDate}}</p>
+  <p>Online: {{selectedPurchase.online}}</p>
+  <p>Project: {{selectedPurchase.name}}</p>
+  <p>Store: {{selectedPurchase.store.name}}</p>
+  <p>Delivered: {{selectedPurchase.delivered}}</p>
+  <p>Arriving: {{selectedPurchase.arrivalDate}}</p>
+  <p>Return by: {{selectedPurchase.returnDate}}</p>
+  <p>Returned: {{selectedPurchase.returned}}</p>
+  <p>Past Return Date: {{selectedPurchase.pastReturnDate}}</p>
+  <button (click)="setEditPurchase()">Update</button>
+  <button>Back</button>
+</div>
+
+<form *ngIf="editPurchase">
+  <br>
+  <!-- <p>Online: {{selectedPurchase.online}}</p>
+  <p>Project: {{selectedPurchase.name}}</p> -->
+  Online: <input type="text" name="task" [(ngModel)]="editPurchase.online"><br>
+  <button (click)="updatePurchase(editPurchase)">Save</button>
+</form>

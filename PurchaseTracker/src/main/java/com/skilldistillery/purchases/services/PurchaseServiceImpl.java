@@ -74,6 +74,16 @@ public class PurchaseServiceImpl implements PurchaseService {
 		return deleted;
 	}
 
+//	@Override
+//	public Purchase updatePurchaseById(Purchase purchase, int purchaseId) {
+//		Optional<Purchase> purchaseOpt = purchaseRepo.findById(purchaseId);
+//		if(purchaseOpt.isPresent()) {
+//			purchase.setId(purchaseId);
+//			return purchaseRepo.saveAndFlush(purchase);
+//		}
+//		return null;
+//	}
+	
 	@Override
 	public Purchase updatePurchaseById(Purchase purchase, int purchaseId) {
 		Optional<Purchase> purchaseOpt = purchaseRepo.findById(purchaseId);

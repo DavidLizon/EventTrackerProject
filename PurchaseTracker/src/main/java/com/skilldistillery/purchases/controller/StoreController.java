@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +24,12 @@ public class StoreController {
 	@Autowired
 	private StoreService storeSvc;
 	
-	@RequestMapping("stores")
+	@GetMapping("stores")
 	public List<Store> listAllStores() {
 		return storeSvc.getAllStores();
 	}
 	
-	@RequestMapping("store/{storeId}")
+	@GetMapping("stores/{storeId}")
 	public Store findStoreById (
 			@PathVariable Integer storeId,
 			HttpServletResponse res
@@ -39,7 +41,7 @@ public class StoreController {
 		return store;
 	}
 	
-	@RequestMapping("stores/{nameLike}")
+	@GetMapping("stores/keyword/{nameLike}")
 	public List<Store> findStoresByNameLike(
 			@PathVariable String nameLike,
 			HttpServletResponse res
@@ -51,7 +53,7 @@ public class StoreController {
 		return stores;
 	}
 	
-	@RequestMapping("store")
+	@PostMapping("stores")
 	public Store addStore(
 			@RequestBody Store store,
 			HttpServletRequest req,
@@ -71,7 +73,7 @@ public class StoreController {
 		return null;
 	}
 	
-	@PutMapping("store/{storeId}")
+	@PutMapping("stores/{storeId}")
 	public Store updateStore(
 			@PathVariable Integer storeId,
 			@RequestBody Store store,
