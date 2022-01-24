@@ -4,6 +4,7 @@ import { Store } from 'src/app/models/store';
 import { PurchaseService } from 'src/app/services/purchase.service';
 import { StoreService } from 'src/app/services/store.service';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -25,7 +26,9 @@ export class HomeComponent implements OnInit {
   purchases: Purchase[] = [];
   selectedPurchase: Purchase | null = null;
   editPurchase: Purchase | null = null;
-  newPurhcase: Purchase = new Purchase;
+  newPurchase: Purchase = new Purchase;
+  addPurchase: boolean = false;
+  deleting: boolean = false;
 
 
   loadPurchases() {
@@ -61,19 +64,44 @@ export class HomeComponent implements OnInit {
 
     this.purchaseService.updatePurchase(purchase).subscribe({
       next: (purch) => {
-        // this.editPurchase = null;
-        // if(purchaseDetails) {
-        //   this.selectedPurchase = purch;
-        // }
+        this.editPurchase = null;
+        if(purch) {
+            this.selectedPurchase = purch;
+          }
+          this.reload();
+        },
+        error: (wrong) => {
+          console.error('PurchaseListComponent.updatePurchase(): error on update');
+          console.error(wrong);
+        }
+      });
+  }
+
+  createPurchase(purchase: Purchase) {
+    this.purchaseService.createPurchase(purchase).subscribe({
+      next: (purchase) => {
+        this.newPurchase = new Purchase();
         this.reload();
       },
-      error: (wrong) => {
-        console.error('PurchaseListComponent.updatePurchase(): error on update');
-        console.error(wrong);
+      error: (fail) => {
+        console.error('Error creating purchase');
+        console.error(fail);
       }
     });
   }
 
+  deletePurchase(purchaseId: number) {
+    this.purchaseService.deletePurchase(purchaseId).subscribe({
+      next: () => {
+        // this.deleting = false;
+        this.reload();
+      },
+      error: (fail) => {
+        console.error(('PurchaseComponenet.deletePurchase(): error deleting purchase.'));
+        console.error(fail);
+      }
+    });
+  }
 
   loadStores() {
     this.storeService.index().subscribe (
@@ -82,6 +110,7 @@ export class HomeComponent implements OnInit {
       err => console.log('Observer got an error ' + err)
     )
   };
+
 
 
 }

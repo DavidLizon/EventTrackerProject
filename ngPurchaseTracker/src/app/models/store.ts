@@ -5,9 +5,9 @@ export class Store {
   numberDaysCanReturnPurchase: number;
 
   constructor(
-    id: number = 0,
+    id: number = 1,
     name: string = '',
-    numberDaysCanReturnPurchase: number = 0
+    numberDaysCanReturnPurchase: number = 1
   ) {
     this.id = id;
     this.name = name;
